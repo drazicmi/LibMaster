@@ -1,1 +1,0 @@
-Fajl skript.js je promenjen u skript.txt zbog problema sa automatskim odbijanjem mejla
