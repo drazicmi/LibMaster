@@ -1,0 +1,48 @@
+nav{
+    width: 100%;
+    position: absolute;
+    top: 0;
+}
+#logo{
+    max-width: 100%;
+    height: auto;
+}
+.container{
+    max-width: 100%;
+    background-color: #2b102d;
+}
+ul {
+    margin-left: 85%;
+}
+hr{
+    background-color: greenyellow;
+}
+.drop:link    { color: gray; font-weight: bold; text-decoration: none; }
+.drop:visited { color: gray; font-weight: bold; text-decoration: none; }
+.drop:hover   { color: gray; font-weight: bold; text-decoration: none; }
+.drop:active  { color: gray; font-weight: bold; text-decoration: none; } 
+#imeProfila:link    { color: gray; font-weight: bold; text-decoration: none; }
+#imeProfila:visited { color: gray; font-weight: bold; text-decoration: none; }
+#imeProfila:hover   { color: gray; font-weight: bold; text-decoration: none; }
+#imeProfila:active  { color: gray; font-weight: bold; text-decoration: none; } 
+#knjigeLink:link    { color: gray; font-weight: bold; text-decoration: none; }
+#knjigeLink:visited { color: gray; font-weight: bold; text-decoration: none; }
+#knjigeLink:hover   { color: gray; font-weight: bold; text-decoration: none; }
+#knjigeLink:active  { color: gray; font-weight: bold; text-decoration: none; } 
+
+label{
+    color: green;
+}
+
+.tb{
+    height: 50%;
+    background-color: gray;
+    border-radius: 10px;
+}
+
+.center-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+}
