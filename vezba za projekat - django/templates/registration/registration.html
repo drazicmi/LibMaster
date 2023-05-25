@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <p>username</p> {{ form.username }}
+        <p>password1</p> {{ form.password1 }}
+        <p>password2</p> {{ form.password2 }}
+        <input type="submit" value="Register">
+    </form>
+    <br>
+    imas profil? uloguj se <a href="{% url 'login' %}">ovde </a>
+</body>
+</html>

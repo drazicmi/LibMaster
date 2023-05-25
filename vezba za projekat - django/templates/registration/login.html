@@ -1,0 +1,20 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LOGIN</title>
+    <link rel="stylesheet" href="{% static 'proba.css' %}">
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="login">
+    </form>
+    <br>
+    <h1 id="naslov"> neki naslov</h1>
+    Nemas profil? Registruj se <a href="{% url 'register' %}">ovde</a>
+</body>
+</html>

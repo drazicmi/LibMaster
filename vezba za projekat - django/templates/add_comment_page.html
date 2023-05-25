@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dodaj komentar</title>
+</head>
+<body>
+
+    <form method="post" action="{% url 'add_comment' %}">
+      {% csrf_token %}
+      <input type="hidden" name="book_id" value="{{ book_id }}">
+      <label for="comment">Unesi komentar:</label>
+      <input type="text" name="comment" required><br>
+      <button type="submit"> Posalji </button>
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add book</title>
+</head>
+<body>
+
+    <form method="post" action="{% url 'add_book' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="ime">Ime knjige:</label>
+        <input type="text" name="ime" required><br>
+
+        <label for="opis">Opis knjige:</label>
+        <textarea name="opis" required></textarea><br>
+
+        <label for="autor_id">Id Autora:</label>
+        <input type="text" name="autor_id" required><br>
+
+        <label for="pdf_file">PDF datoteka:</label>
+        <input type="file" name="pdf_file" required><br>
+
+        <label for="image">Slika:</label>
+        <input type="file" name="image"><br>
+
+        <button type="submit">Dodaj knjigu</button>
+    </form>
+
+
+</body>
+</html>

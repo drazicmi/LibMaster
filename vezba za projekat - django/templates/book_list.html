@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Book list
+{% endblock %}
+
+
+
+{% block content %}
+
+    {% for book in books %}
+        <h3>{{ book.ime }}</h3>
+        <p>Autor: {{ book.autor.username }}</p>
+        <p>Opis: {{ book.opis }}</p>
+
+        {% if book.slika %}
+          <a href="{{ book.pdf_file.url }}"><img src="{{ book.slika.url }}" alt="Book Image"></a><br>
+        {% endif %}
+
+        <p>prosecna ocena: {{ book.prosecnaOcena }} </p>
+
+        <a href="{% url 'rate_book_page' book.id %}" target="_blank">Oceni knjigu</a>
+
+        <!--<h3>PRVI NACIN ZA KOMENTARISANJE</h3>
+        <form method="post" action="{% url 'add_comment' %}">
+          {% csrf_token %}
+          <label for="comment">Unesi komentar:</label>
+          <input type="text" name="comment" required><br>
+
+          <input type="hidden" name="book_id" value="{{ book.id }}">
+
+          <button type="submit">posalji</button>
+        </form> -->
+
+        <!--<h3>DRUGI NACIN ZA KOMENTARISANJE</h3>-->
+        <a style="margin: 10px" href="{% url 'add_comment_page' book.id %}" target="_blank">Dodaj komentar</a>
+
+        <!--<h2>komentari</h2>
+        {% for comment in comments %}
+            {% if comment.zaKnjigu.id == book.id%}
+              {{ comment.id }} <br> {{ comment.tekst }} <br> {{ comment.autorKomentara }}
+            {% endif %}
+            <hr>
+        {% endfor %} -->
+
+        <form method="post" action="{% url 'show_comments_for_book' %}">
+            {% csrf_token %}
+            <input type="hidden" name="book_id_comment" id="book_id_comment" value="{{ book.id }}">
+            <button style="margin:10px" type="submit">Prikazi komentare</button>
+        </form>
+
+        <hr>
+        {% empty %}
+            <p>No books available.</p>
+    {% endfor %}
+
+{% endblock %}
+

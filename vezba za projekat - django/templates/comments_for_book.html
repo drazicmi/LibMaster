@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Komentari za knjigu</title>
+</head>
+<body>
+    <h2>Komentari za knjigu " {{ bookTitle }} "</h2>
+    {% if comments %}
+        {% for comment in comments %}
+            {{ comment.tekst}}
+            <br>
+            {{ comment.autorKomentara.username}}
+            <hr>
+        {% endfor %}
+    {% else %}
+        <p>No comments available.</p>
+    {% endif %}
+
+
+</body>
+</html>
