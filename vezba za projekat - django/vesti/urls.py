@@ -17,5 +17,9 @@ urlpatterns = [
     path('addCommentPage/<int:book_id>', addCommentPage, name='add_comment_page'),
     path('rateBook/', rateBook, name='rate_book'),
     path('rateBookPage/<int:book_id_rate>', rateBookPage, name='rate_book_page'),
-    path('showCommentsForBook/',showCommentsForBook,name='show_comments_for_book')
+    path('showCommentsForBook/',showCommentsForBook,name='show_comments_for_book'),
+    path('sendRequest/', addRequest, name='addRequest'),
+    path('showRequests/', showRequests, name='showRequests'),
+    path('acceptRequests/', acceptRequest, name='acceptRequest')
+
 ]

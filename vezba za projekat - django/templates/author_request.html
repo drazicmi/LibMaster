@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Send request
+{% endblock %}
+
+{% block content %}
+
+    <h2>Slanje zahteva</h2>
+    <form method="post" action="{% url 'addRequest' %}" enctype="multipart/form-data" xmlns="http://www.w3.org/1999/html">
+        {% csrf_token %}
+        <input type="checkbox" name="optionPost" id="bookRequest">
+        <label for="optionPost">Zahtev za objavljivanje knjige</label><br>
+
+        <input type="checkbox" name="optionChange" id="changeRequest">
+        <label for="optionChange">Zahtev za izmenu knjige</label><br>
+        <input type="text" name="novOpis" id="novText" style="display: none;"> <br>
+
+        <input type="checkbox" name="optionRemove" id="bookRequest">
+        <label for="optionRemove">Zahtev za uklanjanje knjige</label> <br>
+
+        <label>Unesite ime knjige:</label>
+        <input type="text" name="bookName" id="imeKnjige"> <br>
+
+        <input type="submit" value="Posalji zahtev">
+    </form>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#changeRequest').change(function() {
+                if (this.checked) {
+                    $('#novText').show();
+                } else {
+                    $('#novText').hide();
+                }
+            });
+        });
+    </script>
+{% endblock %}

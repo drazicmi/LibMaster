@@ -1,4 +1,4 @@
-
+from django.http import HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
@@ -146,6 +146,7 @@ def addCommentPage(request, book_id):
 
 from decimal import Decimal
 
+
 def rateBook(request):
     if request.method == 'POST':
         idKnjige = request.POST['book_id_rate']
@@ -163,8 +164,6 @@ def rateBook(request):
 def rateBookPage(request, book_id_rate):
     return render(request, 'rate_book_page.html', {'book_id_rate': book_id_rate})
 
-
-
 def showCommentsForBook(request):
     book_id = request.POST['book_id_comment']
     comments = Komentar.objects.filter(zaKnjigu__id=book_id)    # __ omogucava da pristupimo poljima datog stranog kljuca
@@ -175,8 +174,45 @@ def showCommentsForBook(request):
     }
     return render(request, 'comments_for_book.html', context)
 
+def addRequest(request):
+    if request.method == 'POST':
+        postavi = False
+        izmeni = False
+        ukloni = False
+        novOpis = '/'
+        if request.POST.get('optionPost') == 'on':
+            postavi = True
+        if request.POST.get('optionChange') == 'on':
+            izmeni = True
+            novOpis = request.POST['novOpis']
+        if request.POST.get('optionRemove') == 'on':
+            ukloni = True
 
+        imeKnjige = request.POST['bookName']
+        zahtev = Zahtevi(korisnik_id=request.user.id, opis=novOpis, izmeniOpis=izmeni, objaviKnjigu=postavi, ukloniKnjigu=ukloni, imeKnjige=imeKnjige)
+        zahtev.save()
+    return render(request, 'author_request.html', {})
 
+def showRequests(request):
+    requests = Zahtevi.objects.all()
+    return render(request, 'allRequests.html', {'requests': requests})
+
+# TODO:
+# Uraditi specificne akcije za svaki oblik zahteva
+# Dodati da moze da objavi knjigu, tj kao onaj fileField u zahtev
+def acceptRequest(request):
+    if request.method == 'POST':
+        request_id = request.POST.get('request_id')
+        request_obj = Zahtevi.objects.get(id=request_id)
+        if request_obj.izmeniOpis:
+            pass
+        if request_obj.objaviKnjigu:
+            pass
+        if request_obj.ukloniKnjigu:
+            pass
+        return HttpResponse('Request accepted successfully.')
+    else:
+        return HttpResponse('Invalid request.')
 
 
 

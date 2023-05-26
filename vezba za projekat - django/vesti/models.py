@@ -35,3 +35,13 @@ class Komentar(models.Model):
 
     class Meta:
         db_table = 'Komentar'
+
+class Zahtevi(models.Model):
+    korisnik = models.ForeignKey(Korisnik, on_delete=models.CASCADE)
+    opis = models.CharField(max_length=200)
+    objaviKnjigu = models.BooleanField(default=False)
+    izmeniOpis = models.BooleanField(default=False)
+    ukloniKnjigu = models.BooleanField(default=False)
+    imeKnjige = models.CharField(max_length=200, default=' ')
+    class Meta:
+        db_table = 'Zahtevi'

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    All requests
+{% endblock %}
+
+
+{% block content %}
+    <h1>All requests:</h1>
+    <table>
+        {% for request in requests %}
+            <tr>
+                <td style="border: solid 1px">User: {{ request.korisnik }}</td>
+                <td style="border: solid 1px">New desc: {{ request.opis }}</td>
+                <td style="border: solid 1px">Book name : {{ request.imeKnjige }}</td>
+                <td style="border: solid 1px">Upload book: {{ request.objaviKnjigu }}</td>
+                <td style="border: solid 1px">Update book: {{ request.izmeniOpis }}</td>
+                <td style="border: solid 1px">Remove book: {{ request.ukloniKnjigu }}</td>
+                <td>
+                    <form method="post" action="{% url 'acceptRequest' %}" enctype="multipart/form-data" xmlns="http://www.w3.org/1999/html">
+                        {% csrf_token %}
+                        <input type="hidden" name="request_id" value="{{ request.id }}">
+                        <input type="submit" value="Accept">
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
