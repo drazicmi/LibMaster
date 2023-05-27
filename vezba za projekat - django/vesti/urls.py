@@ -20,6 +20,6 @@ urlpatterns = [
     path('showCommentsForBook/',showCommentsForBook,name='show_comments_for_book'),
     path('sendRequest/', addRequest, name='addRequest'),
     path('showRequests/', showRequests, name='showRequests'),
-    path('acceptRequests/', acceptRequest, name='acceptRequest')
+    path('handleRequest/', handleRequest, name='handleRequest')
 
 ]

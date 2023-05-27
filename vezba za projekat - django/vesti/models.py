@@ -43,5 +43,14 @@ class Zahtevi(models.Model):
     izmeniOpis = models.BooleanField(default=False)
     ukloniKnjigu = models.BooleanField(default=False)
     imeKnjige = models.CharField(max_length=200, default=' ')
+
+    # Iznad se odnosi na postojecu knjigu,
+    # ispod se odnosi na postavljanje nove
+
+    imeNoveKnjige = models.CharField(max_length=200, default=' ')
+    pdf_file = models.FileField(upload_to='books/', default=None)
+    slika = models.ImageField(upload_to='books_images/', blank=True, null=True)
+    opisNoveKnjige = models.CharField(max_length=200, default=' ')
+
     class Meta:
         db_table = 'Zahtevi'

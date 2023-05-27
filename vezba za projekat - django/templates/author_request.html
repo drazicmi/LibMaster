@@ -11,10 +11,22 @@
         {% csrf_token %}
         <input type="checkbox" name="optionPost" id="bookRequest">
         <label for="optionPost">Zahtev za objavljivanje knjige</label><br>
+        <div id="newBook" style="display: none;">
+            <label for="ime">Ime knjige:</label>
+            <input type="text" name="newBookName" ><br>
 
+            <label for="opis">Opis knjige:</label>
+            <textarea name="newBookDesc" ></textarea><br>
+
+            <label for="pdf_file">PDF datoteka:</label>
+            <input type="file" name="newBookPDF" ><br>
+
+            <label for="image">Slika:</label>
+            <input type="file" name="newBookCover"><br>
+        </div>
         <input type="checkbox" name="optionChange" id="changeRequest">
-        <label for="optionChange">Zahtev za izmenu knjige</label><br>
-        <input type="text" name="novOpis" id="novText" style="display: none;"> <br>
+        <label for="optionChange">Zahtev za izmenu knjige</label>
+        <input type="text" name="newDesc" id="newText" style="display: none;"> <br>
 
         <input type="checkbox" name="optionRemove" id="bookRequest">
         <label for="optionRemove">Zahtev za uklanjanje knjige</label> <br>
@@ -29,9 +41,16 @@
         $(document).ready(function() {
             $('#changeRequest').change(function() {
                 if (this.checked) {
-                    $('#novText').show();
+                    $('#newText').show();
                 } else {
-                    $('#novText').hide();
+                    $('#newText').hide();
+                }
+            });
+            $('#bookRequest').change(function() {
+                if (this.checked) {
+                    $('#newBook').show();
+                } else {
+                    $('#newBook').hide();
                 }
             });
         });

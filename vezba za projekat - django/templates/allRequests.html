@@ -6,6 +6,9 @@
 
 
 {% block content %}
+    {% for message in messages %}
+        <h3 style="color: hotpink;">{{ message }}</h3>
+    {% endfor %}
     <h1>All requests:</h1>
     <table>
         {% for request in requests %}
@@ -16,11 +19,20 @@
                 <td style="border: solid 1px">Upload book: {{ request.objaviKnjigu }}</td>
                 <td style="border: solid 1px">Update book: {{ request.izmeniOpis }}</td>
                 <td style="border: solid 1px">Remove book: {{ request.ukloniKnjigu }}</td>
+                {% if request.objaviKnjigu %}
+
+                    <td style="border: solid 1px">New Book Name: {{ request.imeNoveKnjige }}</td>
+                    <td style="border: solid 1px">New Book Image: <a href="{{ request.slika.url }}">SLIKA</a></td>
+                    <td style="border: solid 1px">New Book PDF: <a href="{{ request.ukloniKnjigu.url }}">PDF</a></td>
+
+                {% endif %}
+
                 <td>
-                    <form method="post" action="{% url 'acceptRequest' %}" enctype="multipart/form-data" xmlns="http://www.w3.org/1999/html">
+                    <form method="post" action="{% url 'handleRequest' %}" enctype="multipart/form-data" xmlns="http://www.w3.org/1999/html">
                         {% csrf_token %}
                         <input type="hidden" name="request_id" value="{{ request.id }}">
-                        <input type="submit" value="Accept">
+                        <input type="submit" name="action" value="Prihvati">
+                        <input type="submit" name="action" value="Odbij">
                     </form>
                 </td>
             </tr>

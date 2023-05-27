@@ -176,46 +176,98 @@ def showCommentsForBook(request):
 
 def addRequest(request):
     if request.method == 'POST':
-        postavi = False
-        izmeni = False
-        ukloni = False
-        novOpis = '/'
+        upload = change = remove =False
+        newDesc = newBookName = newBookDesc = '/'
+        newBookPDF = newBookImage = None
         if request.POST.get('optionPost') == 'on':
-            postavi = True
+            upload = True
+            newBookName = request.POST['newBookName']
+            newBookDesc = request.POST['newBookDesc']
+            newBookPDF = request.FILES.get('newBookPDF')
+            newBookImage = request.FILES.get('newBookCover')
         if request.POST.get('optionChange') == 'on':
-            izmeni = True
-            novOpis = request.POST['novOpis']
+            change = True
+            newDesc = request.POST['newDesc']
         if request.POST.get('optionRemove') == 'on':
-            ukloni = True
+            remove = True
 
-        imeKnjige = request.POST['bookName']
-        zahtev = Zahtevi(korisnik_id=request.user.id, opis=novOpis, izmeniOpis=izmeni, objaviKnjigu=postavi, ukloniKnjigu=ukloni, imeKnjige=imeKnjige)
+        bookName = request.POST['bookName']
+        zahtev = Zahtevi(korisnik_id=request.user.id,
+                         opis=newDesc,
+                         izmeniOpis=change,
+                         objaviKnjigu=upload,
+                         ukloniKnjigu=remove,
+                         imeKnjige=bookName,
+
+                         # Ovo se odnosi na upload nove ako postoji,
+                         # inace ce biti sva pola '/',
+                         # PDF polje i slika ce biti None (NULL)
+                         imeNoveKnjige=newBookName,
+                         opisNoveKnjige=newBookDesc,
+                         pdf_file=newBookPDF,
+                         slika=newBookImage
+                         )
         zahtev.save()
     return render(request, 'author_request.html', {})
 
 def showRequests(request):
     requests = Zahtevi.objects.all()
-    return render(request, 'allRequests.html', {'requests': requests})
+    return render(request, 'allRequests.html', {'requests': requests, 'messages': messages.get_messages(request)})
 
 # TODO:
 # Uraditi specificne akcije za svaki oblik zahteva
-# Dodati da moze da objavi knjigu, tj kao onaj fileField u zahtev
-def acceptRequest(request):
+from django.contrib import messages
+def handleRequest(request):
     if request.method == 'POST':
         request_id = request.POST.get('request_id')
         request_obj = Zahtevi.objects.get(id=request_id)
-        if request_obj.izmeniOpis:
-            pass
-        if request_obj.objaviKnjigu:
-            pass
-        if request_obj.ukloniKnjigu:
-            pass
-        return HttpResponse('Request accepted successfully.')
+        if request.POST.get('action') == 'Prihvati':
+            if request_obj.izmeniOpis:
+                changeBook(request_obj.imeKnjige, request_obj.opis)
+            if request_obj.objaviKnjigu:
+                uploadBook(request, request_obj)
+            if request_obj.ukloniKnjigu:
+                removeBook(request_obj)
+            request_obj.delete()
+
+            messages.success(request, 'Zahtev odobren!')
+
+        elif request.POST.get('action') == 'Odbij':
+            request_obj.delete()
+            messages.success(request, 'Zahtev odbijen!')
+
+        return redirect('showRequests')
+
     else:
-        return HttpResponse('Invalid request.')
+        return HttpResponse('Neovlascen pristup')
+
+def changeBook(bookName: str, novOpis: str):
+    try:
+        foundBook = Knjiga.objects.get(ime=bookName)
+        foundBook.opis = novOpis
+        foundBook.save()
+    except:
+        return HttpResponse('Ne postoji knjiga sa datim imenom')
+    # TODO
+    # Mozda ispisati neku poruku na stranici da knjiga ne postoji
+    # umesto samo da se izlazi iz funkcije...
 
 
 
+def uploadBook(request, userRequest: Zahtevi):
+    novaKnjiga = Knjiga(autor_id=request.user.id,
+                        ime=userRequest.imeNoveKnjige,
+                        opis=userRequest.opisNoveKnjige,
+                        pdf_file=userRequest.pdf_file,
+                        slika=userRequest.slika)
+    novaKnjiga.save()
+
+def removeBook(userRequest: Zahtevi):
+    try:
+        trazenaKnjiga = Knjiga.objects.get(ime=userRequest.imeKnjige)
+        trazenaKnjiga.delete()
+    except:
+        return HttpResponse('Ne postoji knjiga sa datim imenom')
 
 
 
